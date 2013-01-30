@@ -274,6 +274,7 @@ function _varnish_execute_command($client, $command) {
   }
   else {
     // successful connection
+    watchdog('varnish', 'Recieved status code !code running %command. Full response text: !error', array('!code' => $status['code'], '%command' => $command, '!error' => $status['msg']));
     return $status;
   }
 }
