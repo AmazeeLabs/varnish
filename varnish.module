@@ -85,7 +85,9 @@ function varnish_permission() {
  * adds a varnish cache to the list of caches
  */
 function varnish_flush_caches() {
-  return array('external_varnish_page');
+  if (variable_get('cache_class_external_varnish_page', FALSE)) {
+    return array('external_varnish_page');
+  }
 }
 
 /**
