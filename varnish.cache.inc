@@ -33,6 +33,11 @@ class VarnishCache implements DrupalCacheInterface {
   }
 
   function clear($cid = NULL, $wildcard = FALSE) {
+    // Check if we have to ignore cache clears completey.
+    if (variable_get('varnish_full_disable_flushes', 0)) {
+      return;
+    }
+
     global $user;
     // Check that we really want to do a cache flush.
     if (!module_exists('varnish') ||

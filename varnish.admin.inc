@@ -19,6 +19,18 @@ function varnish_admin_settings_form() {
 
   // Begin socket-dependent configuration.
 
+  // Allows to disable cache flushes of Varnish completely.
+  $form['varnish_full_disable_flushes'] = array(
+    '#type' => 'radios',
+    '#title' => t('Disable Flushes completely?'),
+    '#options' => array(
+      0 => t('Disabled'),
+      1 => t('Enabled'),
+    ),
+    '#default_value' => variable_get('varnish_full_disable_flushes', 0),
+    '#description' => t('Allows to disable cache flushes of Varnish completely.'),
+  );
+
   // Decide whether or not to flush caches on cron runs.
   $form['varnish_flush_cron'] = array(
     '#type' => 'radios',
