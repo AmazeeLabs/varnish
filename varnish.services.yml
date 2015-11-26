@@ -6,6 +6,5 @@ services:
     class: Drupal\Core\Cache\CacheBackendInterface
     tags:
       - { name: cache.bin, default_backend: cache.backend.varnish }
-    factory_method: get
-    factory_service: cache_factory
+    factory: cache_factory:get
     arguments: [varnish]
