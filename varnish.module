@@ -75,9 +75,15 @@ function varnish_purge_all_pages() {
  *
  * @param string $host the host to purge.
  * @param string $pattern the pattern to look for and purge.
+ * @param string $operator (optional) the operator used to match the pattern
  */
-function varnish_purge($host, $pattern) {
+function varnish_purge($host, $pattern, $operator = '~') {
   global $base_path, $base_root;
+
+  // Validate operator and fallback to default if not valid
+  if (!in_array($operator, array('==', '!==', '~', '!~', '<', '!<', '>', '!>'))) {
+    $operator = '~';
+  }
 
   $config = \Drupal::config('varnish.settings');
 
@@ -98,10 +104,10 @@ function varnish_purge($host, $pattern) {
 
   switch ($bantype) {
     case VARNISH_BANTYPE_NORMAL:
-      _varnish_terminal_run(array("ban req.http.host ~ $host && req.url ~ \"$pattern\""));
+      _varnish_terminal_run(array("ban req.http.host ~ $host && req.url $operator \"$pattern\""));
       break;
     case VARNISH_BANTYPE_BANLURKER:
-      _varnish_terminal_run(array("ban obj.http.x-host ~ $host && obj.http.x-url  ~ \"$pattern\""));
+      _varnish_terminal_run(array("ban obj.http.x-host ~ $host && obj.http.x-url  $operator \"$pattern\""));
       break;
     default:
       // We really should NEVER get here. Log error. I can only see this
