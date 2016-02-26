@@ -87,7 +87,7 @@ class VarnishBackend implements CacheBackendInterface{
    * {@inheritdoc}
    */
   public function deleteAll() {
-    $test = 'test';
+    varnish_purge_all_pages();
   }
 
   /**
