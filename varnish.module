@@ -122,17 +122,12 @@ function varnish_expire_cache($paths, $wildcards = array()) {
       $host_buckets[$parts['host']][] = $parts['path'] . (!empty($parts['query']) ? '?' . $parts['query'] : '');
     }
     foreach ($host_buckets as $host => $purges) {
-      $purge = implode('$|^', $purges);
-      $purge = '^' . $purge . '$';
-      varnish_purge($host, $purge);
+      varnish_purge_paths($host, $purges);
     }
   }
   else {
     $host = _varnish_get_host();
-    $base = base_path();
-    $purge = implode('$|^' . $base, $paths);
-    $purge = '^' . $base . $purge . '$';
-    varnish_purge($host, $purge);
+    varnish_purge_paths($host, $paths);
   }
 }
 
