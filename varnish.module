@@ -170,13 +170,26 @@ function varnish_purge($host, $pattern) {
   }
   $pattern = implode('|', $patterns);
 
+  // Get list of domains to ban
+  $front_domains = variable_get('varnish_front_domains', '');
+  $fronts = explode(' ', $front_domains);
   switch ($bantype) {
     case VARNISH_BANTYPE_NORMAL:
       _varnish_terminal_run(array("$command req.http.host ~ $host && req.url ~ \"$pattern\""));
+      if ($front_domains) {
+        foreach ($fronts as $value) {
+          _varnish_terminal_run(array("$command req.http.host ~ $value && req.url ~ \"$pattern\""));
+        }
+      }
       break;
 
     case VARNISH_BANTYPE_BANLURKER:
       _varnish_terminal_run(array("$command obj.http.x-host ~ $host && obj.http.x-url  ~ \"$pattern\""));
+      if ($front_domains) {
+        foreach ($fronts as $value) {
+          _varnish_terminal_run(array("$command obj.http.x-host ~ $value && obj.http.x-url ~ \"$pattern\""));
+        }
+      }
       break;
 
     default:
