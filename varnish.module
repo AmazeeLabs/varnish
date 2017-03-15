@@ -225,6 +225,8 @@ function varnish_purge_paths($host, array $paths) {
     }
     // Chop the final "|^" off the string, leaving "$".
     $purge_pattern = substr($purge_pattern, 0, -2);
+    // Remove extra slashes in beginning of URL.
+    $purge_pattern = preg_replace('#/+#', '/', $purge_pattern);
     // Submit this purge chunk.
     varnish_purge($host, $purge_pattern);
   }
