@@ -185,20 +185,24 @@ function build_varnish_status($variables) {
         '#alt' => t("Server OK: @server:@port", array('@server' => $server, '@port' => $port)),
         '#title' => "{$server}:{$port}",
       );
-      $icon_markup = \Drupal::service('renderer')->render($icon);
-      $items[] = t('!status_icon Varnish running.', array('!status_icon' => $icon_markup));
+      $items[] = [
+        'icon' => $icon,
+        'text' => ['#markup' => t('Varnish running.')],
+      ];
 
     }
     else {
       $icon = array(
         '#theme' => 'image',
-        '#uri' => 'core/misc/icons/ea2800/error.svg',
+        '#uri' => 'core/misc/icons/e32700/error.svg',
         '#alt' => t("Server down: @server:@port", array('@server' => $server, '@port' => $port)),
         '#title' => "{$server}:{$port}"
       );
-      $icon_markup = \Drupal::service('renderer')->render($icon);
-      $items[] = t('!status_icon The Varnish control terminal is not responding at @server on port @port.',
-        array('!status_icon' => $icon_markup, '@server' => $server, '@port' => $port));
+      $items[] = [
+        'icon' => $icon,
+        'text' => ['#markup' => t('The Varnish control terminal is not responding at @server on port @port.',
+          array('@server' => $server, '@port' => $port))],
+      ];
     }
   }
   $list = array(
