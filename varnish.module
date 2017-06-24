@@ -58,6 +58,16 @@ function varnish_requirements($phase) {
 }
 
 /**
+ * Implements hook_entity_presave().
+ */
+function varnish_entity_presave() {
+  $config = \Drupal::config('varnish.settings');
+  if ($config->get('varnish_cache_clear') == VARNISH_DEFAULT_CLEAR) {
+    varnish_purge_all_pages();
+  }
+}
+
+/**
  * Helper function to quickly flush all caches for the current site.
  */
 function varnish_purge_all_pages() {

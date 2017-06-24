@@ -117,7 +117,7 @@ class VarnishAdminForm extends ConfigFormBase {
         '0' => $this->t('None'),
       ),
       '#default_value' => $config->get('varnish_cache_clear'),
-      '#description' => $this->t('What kind of cache clearing Varnish should utilize. Drupal default will clear all page caches on node updates and cache flush events. None will allow pages to persist for their full max-age; use this if you want to write your own cache-clearing logic.'),
+      '#description' => $this->t('What kind of cache clearing Varnish should utilize. Drupal default will clear all page caches on entity updates and cache flush events. None will allow pages to persist for their full max-age; use this if you want to write your own cache-clearing logic.'),
     );
 
     // Allow users to select Varnish ban type to use.
