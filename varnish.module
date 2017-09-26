@@ -386,7 +386,7 @@ function _varnish_execute_command($client, $command) {
   $result = socket_write($client, "$command\n");
   $status = _varnish_read_socket($client);
   if ($status['code'] != 200) {
-    watchdog('varnish', 'Recieved status code @code running %command. Full response text: @error', array(
+    watchdog('varnish', 'Received status code @code running %command. Full response text: @error', array(
       '@code' => $status['code'],
       '%command' => $command,
       '@error' => $status['msg']),
