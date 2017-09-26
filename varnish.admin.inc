@@ -54,6 +54,7 @@ function varnish_admin_settings_form() {
     '#default_value' => variable_get('varnish_control_terminal', '127.0.0.1:6082'),
     '#required' => TRUE,
     '#description' => t('Set this to the server IP or hostname that varnish runs on (e.g. 127.0.0.1:6082). This must be configured for Drupal to talk to Varnish. Separate multiple servers with spaces.'),
+    '#maxlength' => 256,
   );
 
   $form['varnish_control_key'] = array(
