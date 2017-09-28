@@ -109,7 +109,7 @@ function varnish_expire_cache($paths, $wildcards = array()) {
   if (count($wildcards)) {
     foreach ($wildcards as $path => $wildcard) {
       if ($wildcard) {
-        $paths[$path . '[/?](.*)'] = $path . '[/?](.*)';
+        $paths[$path] .= '([/?].*)?';
       }
     }
   }
@@ -119,7 +119,9 @@ function varnish_expire_cache($paths, $wildcards = array()) {
     $host_buckets = array();
     foreach ($paths as $url) {
       $parts = parse_url($url);
-      $host_buckets[$parts['host']][] = $parts['path'] . (!empty($parts['query']) ? '?' . $parts['query'] : '');
+      // Strip base path from the path because it will be added later.
+      $path = substr($parts['path'], strlen(base_path()));
+      $host_buckets[$parts['host']][] = $path . (!empty($parts['query']) ? '?' . $parts['query'] : '');
     }
     foreach ($host_buckets as $host => $purges) {
       varnish_purge_paths($host, $purges);
